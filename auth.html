@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sign up page</title>
+    <style>
+        .signup {
+            width: 30%;
+            height: 70vh;
+            border-style: solid;
+            border-radius: 100px;
+            border-color: black;
+            margin: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-items: center;
+            justify-content: space-around;
+        }
+        .container {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+    <div class="signup">
+        <h1>sign in</h1>
+        <label for="email">Email</label>
+        <input type="email" name="email" id="email"><br>
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password"><br>
+        <div class="container">
+            <input type="submit" value="Sign Up" id="signup">
+            <button id="login">Login</button>
+            <button id="google">Sign In With Google</button>
+        </div>
+        <div id="result"></div>
+    </div>
+    <script type="module" src="auth.js"></script>
+</body>
+</html>
