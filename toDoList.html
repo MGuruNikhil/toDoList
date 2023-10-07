@@ -19,11 +19,6 @@
                     id="button-addon2">save</button>
             </div>
             <ul id="parentList" class="list-group">
-                <li class="list-group-item d-flex justify-content-center">
-                    <h3 class="flex-grow-1">simple</h3> <button
-                        class="btn btn-warning mx-3 edit-btn">edit</button><button
-                        class="btn btn-danger delete-btn">delete</button>
-                </li>
             </ul>
         </div>
         <br>
@@ -63,24 +58,6 @@
         // });
         const db = getDatabase(app);
 
-
-
-        onChildAdded(toDoListRef, (snapshot) => {
-            const newItem = snapshot.val();
-            renderToDoItem(newItem, snapshot.key);
-        });
-        onChildChanged(toDoListRef, (snapshot) => {
-            const updatedItem = snapshot.val();
-            itemKey = snapshot.key;
-            updateToDoItem(itemKey, updatedItem);
-        });
-        onChildRemoved(toDoListRef, (snapshot) => {
-            const itemKey = snapshot.key;
-            removeToDoItem(itemKey);
-        });
-
-
-
         const logOut = document.getElementById("logout");
         logOut.addEventListener('click', () => {
             signOut(auth).then(() => {
@@ -94,6 +71,22 @@
         myUid.addEventListener('click', () => {
             alert("Your uid is " + userId);
         })
+
+        function setPath(auth) {
+            const user = auth.currentUser;
+            if (user) {
+                const userId = user.uid;
+                if (userId) {
+                    return ref(db, "users/" + userId);
+                }
+                else {
+                    return null;
+                }
+            }
+            else {
+                return null;
+            }
+        }
 
         function renderToDoItem(item, itemKey) {
             const parentList = document.getElementById('parentList');
@@ -141,6 +134,11 @@
 
             // let parentList=document.getElementById('parentList');
             // parentList.appendChild(newIteam);
+            parentList.innerHTML = ""
+            onChildAdded(toDoListRef, (snapshot) => {
+                const newItem = snapshot.val();
+                renderToDoItem(newItem, snapshot.key);
+            });
         }
         document.getElementById('parentList').addEventListener('click', function (e) {
             if (e.target.classList.contains('edit-btn')) {
@@ -162,6 +160,11 @@
                                 .catch((error) => {
                                     console.log(error);
                                 });
+                            parentList.innerHTML = ""
+                            onChildAdded(toDoListRef, (snapshot) => {
+                                const newItem = snapshot.val();
+                                renderToDoItem(newItem, snapshot.key);
+                            });
                         }
                     } else {
                         alert('Empty entries are not allowed');
@@ -172,26 +175,35 @@
         document.getElementById('parentList').addEventListener('click', function (e) {
             if (e.target.classList.contains('delete-btn')) {
                 const listItem = e.target.parentElement;
-                const user = firebase.auth().currentUser;
-                if (user) {
-                    const uid = user.uid;
-                    const itemKey = listItem.getAttribute('data-key');
 
-                    // Remove the item from Firebase Realtime Database
-                    // const userId = auth.currentUser.uid;
-                    if (userId) {
-                        remove(ref(db, 'users/' + userId + '/' + itemKey))
-                            .then(function () {
-                                // Remove the item from the UI
-                                listItem.remove();
-                            })
-                            .catch(function (error) {
-                                console.error("Error removing item: ", error);
-                            });
-                    }
+
+                const itemKey = listItem.getAttribute('data-key');
+
+                // Remove the item from Firebase Realtime Database
+                // const userId = auth.currentUser.uid;
+                if (userId) {
+                    remove(ref(db, 'users/' + userId + '/' + itemKey))
+                        .then(function () {
+                            // Remove the item from the UI
+                            listItem.remove();
+                        })
+                        .catch(function (error) {
+                            console.error("Error removing item: ", error);
+                        });
+                    parentList.innerHTML = ""
+                    onChildAdded(toDoListRef, (snapshot) => {
+                        const newItem = snapshot.val();
+                        renderToDoItem(newItem, snapshot.key);
+                    });
                 }
             }
         });
+        window.onload = function () {
+            onChildAdded(toDoListRef, (snapshot) => {
+                const newItem = snapshot.val();
+                renderToDoItem(newItem, snapshot.key);
+            });
+        }
 
     </script>
 </body>
