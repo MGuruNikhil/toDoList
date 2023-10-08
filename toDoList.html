@@ -40,6 +40,10 @@
                     if (user) {
                         userId = user.uid;
                         toDoListRef = ref(db, "users/" + userId);
+                        onChildAdded(toDoListRef, (snapshot) => {
+                            const newItem = snapshot.val();
+                            renderToDoItem(newItem, snapshot.key);
+                        });
                     } else {
                         window.location.href = "auth.html";
                     }
@@ -70,23 +74,7 @@
         const myUid = document.getElementById("myUid");
         myUid.addEventListener('click', () => {
             alert("Your uid is " + userId);
-        })
-
-        function setPath(auth) {
-            const user = auth.currentUser;
-            if (user) {
-                const userId = user.uid;
-                if (userId) {
-                    return ref(db, "users/" + userId);
-                }
-                else {
-                    return null;
-                }
-            }
-            else {
-                return null;
-            }
-        }
+        });
 
         function renderToDoItem(item, itemKey) {
             const parentList = document.getElementById('parentList');
@@ -198,13 +186,6 @@
                 }
             }
         });
-        window.onload = function () {
-            onChildAdded(toDoListRef, (snapshot) => {
-                const newItem = snapshot.val();
-                renderToDoItem(newItem, snapshot.key);
-            });
-        }
-
     </script>
 </body>
 
