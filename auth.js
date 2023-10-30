@@ -12,8 +12,9 @@ const auth = getAuth(app);
 onAuthStateChanged(auth, (user) => {
     if (user) {
         window.location.href="toDoList.html";
-    } else {
-        alert("Log in/Sign up to use the application");
+    }
+    else {
+        //nothing to do
     }
 });
 const provider = new GoogleAuthProvider(app);
