@@ -1,4 +1,4 @@
-import  app  from "./firebaseconfig.js";
+import app from "./firebaseconfig.js";
 import {
     getAuth,
     createUserWithEmailAndPassword,
@@ -11,7 +11,7 @@ var userId = null;
 const auth = getAuth(app);
 onAuthStateChanged(auth, (user) => {
     if (user) {
-        window.location.href="toDoList.html";
+        window.location.href = "toDoList.html";
     }
     else {
         //nothing to do
@@ -31,16 +31,14 @@ function createUser() {
         .then((userCredential) => {
             // Signed in 
             const user = userCredential.user;
-            userId=user.uid;
+            userId = user.uid;
             console.log(user);
-            // display.innerHTML = `You are successfully signed in , your uid is ${userId}`;
-            // display.appendChild(signOutB);
             window.location.href = `toDoList.html`;
         })
         .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
-            display.innerHTML = "Something went wrong";
+            display.innerHTML = "something went wrong";
             console.log(errorCode);
             console.log(errorMessage);
         });
@@ -56,10 +54,8 @@ function userLogin() {
         .then((userCredential) => {
             // Signed in 
             const user = userCredential.user;
-            userId=user.uid;
+            userId = user.uid;
             console.log(user);
-            // display.innerHTML = `You are successfully logged in , your uid is ${userId}`;
-            // display.appendChild(signOutB);
             window.location.href = `toDoList.html`;
         })
         .catch((error) => {
@@ -80,13 +76,8 @@ function handelGoogle() {
             const token = credential.accessToken;
             // The signed-in user info.
             const user = result.user;
-            userId=user.uid;
+            userId = user.uid;
             console.log(user);
-            // IdP data available using getAdditionalUserInfo(result)
-            // const IdPData = getAdditionalUserInfo(result);
-            // console.log(IdPData);
-            // display.innerHTML = `You are successfully signed in using google, your uid is ${userId}`;
-            // display.appendChild(signOutB);
             window.location.href = `toDoList.html?data=${encodeURIComponent(userId)}`;
         })
         .catch((error) => {
@@ -103,6 +94,4 @@ function handelGoogle() {
             console.log(credential);
             display.innerHTML = "Something went wrong";
         });
-    //client ID : 732393000116-g636227rurqlisrv9adg3morcbhhmo2r.apps.googleusercontent.com
-    // client secret : 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
 }
