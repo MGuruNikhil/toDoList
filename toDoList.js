@@ -1,5 +1,5 @@
 import app from "./firebaseconfig.js";
-import { getDatabase, ref, push, set, remove, onChildAdded, onChildChanged, onChildRemoved, update } from "https://www.gstatic.com/firebasejs/10.3.1/firebase-database.js";
+import { getDatabase, ref, push, set, remove, onChildAdded } from "https://www.gstatic.com/firebasejs/10.3.1/firebase-database.js";
 import { getAuth, onAuthStateChanged, signOut, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.3.1/firebase-auth.js";
 const auth = getAuth(app);
 const db = getDatabase(app);
@@ -48,24 +48,14 @@ function renderToDoItem(item, itemKey) {
     parentList.appendChild(newListItem);
 }
 
-function updateToDoItem(itemKey, updatedItem) {
-    const listItem = document.querySelector(`li[data-key="${itemKey}"]`);
-    if (listItem) {
-        listItem.querySelector('h3').textContent = updatedItem.text;
-    }
-}
-
-function removeToDoItem(itemKey) {
-    const listItem = document.querySelector(`li[data-key="${itemKey}"]`);
-    if (listItem) {
-        listItem.remove();
-    }
-}
-
 let cbtn = document.getElementById('add_btn');
 cbtn.addEventListener('click', addChapter);
-function addChapter(e) {
-    let currentBtn = e.currentTarget;
+document.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+        addChapter();
+    }
+});
+function addChapter() {
     let currentInput = document.getElementById('inp');
     let currentChapter = currentInput.value;
     if (currentChapter == "") {

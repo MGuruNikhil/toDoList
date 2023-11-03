@@ -1,12 +1,5 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp,getApps } from "https://www.gstatic.com/firebasejs/10.3.1/firebase-app.js";
-// import {
-//     getFirestore,
-//     addDoc,
-//     collection,
-//     getDocs
-// } from "https://www.gstatic.com/firebasejs/10.3.1/firebase-firestore.js";
-
+import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.3.1/firebase-app.js";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -23,11 +16,8 @@ const firebaseConfig = {
     measurementId: "G-3KW5EY5BC9"
 };
 
-// Initialize Firebase
-// export const app = initializeApp(firebaseConfig);
-// export const db = getFirestore(app);
 var app;
 if (!getApps().length) {
-   app = initializeApp(firebaseConfig);
+    app = initializeApp(firebaseConfig);
 }
 export default app;
