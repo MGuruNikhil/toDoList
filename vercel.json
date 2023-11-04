@@ -1,0 +1,12 @@
+{
+    "rewrites": [
+        {
+            "source": "/auth",
+            "destination": "/auth.html"
+        },
+        {
+            "source": "/(.*)",
+            "destination": "/toDoList.html"
+        }
+    ]
+}
