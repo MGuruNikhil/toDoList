@@ -7,7 +7,7 @@ import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.3.
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-    apiKey: process.env.API_KEY,
+    apiKey: "AIzaSyA6yK8UVIhnBsIghoi8Kpf53sPxtrt_f70",
     authDomain: "nn-project-624c7.firebaseapp.com",
     projectId: "nn-project-624c7",
     storageBucket: "nn-project-624c7.appspot.com",
