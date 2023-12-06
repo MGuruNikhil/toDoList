@@ -41,12 +41,12 @@ function renderToDoItem(item, itemKey) {
     newListItem.classList.add("list-group-item");
     newListItem.classList.add("d-flex");
     newListItem.innerHTML = `
-                <h3 class="flex-grow-1">${item.text}</h3>
-                <button class="btn btn-warning mx-3 edit-btn" style="color: white;">
-                    <i class="bi bi-pen edit-btn"></i>
+                <h3 class="flex-grow-1" data-key=${itemKey}>${item.text}</h3>
+                <button class="btn btn-warning mx-3 edit-btn" style="color: white;" data-key=${itemKey}>
+                    <i class="bi bi-pen edit-btn" data-key=${itemKey}></i>
                 </button>
-                <button class="btn btn-danger delete-btn">
-                    <i class="bi bi-trash delete-btn"></i>
+                <button class="btn btn-danger delete-btn" data-key=${itemKey}>
+                    <i class="bi bi-trash delete-btn" data-key=${itemKey}></i>
                 </button>
             `;
     newListItem.setAttribute('data-key', itemKey);
@@ -61,6 +61,7 @@ document.addEventListener("keydown", function (event) {
     }
 });
 function addChapter() {
+    const parentList = document.getElementById('parentList');
     let currentInput = document.getElementById('inp');
     let currentChapter = currentInput.value;
     if (currentChapter == "") {
@@ -81,14 +82,14 @@ function addChapter() {
 }
 
 document.getElementById('parentList').addEventListener('click', function (e) {
+    const parentList = document.getElementById('parentList');
+    const itemKey = e.target.getAttribute('data-key');
     if (e.target.classList.contains('edit-btn')) {
         const newText = prompt("Enter new text");
         if (newText !== null) {
-            const listItem = e.target.parentElement;
             const updatedText = newText.trim();
             if (updatedText !== "") {
                 // Update the edited item in Firebase Realtime Database
-                const itemKey = listItem.parentNode.getAttribute('data-key');
                 console.log(itemKey)
                 // const userId = auth.currentUser.uid;
                 if (userId) {
@@ -112,18 +113,12 @@ document.getElementById('parentList').addEventListener('click', function (e) {
             }
         }
     }
-});
-
-document.getElementById('parentList').addEventListener('click', function (e) {
-    if (e.target.classList.contains('delete-btn')) {
-        const listItem = e.target.parentElement;
-        const itemKey = listItem.parentNode.getAttribute('data-key');
+    else if (e.target.classList.contains('delete-btn')) {
         // Remove the item from Firebase Realtime Database
         if (userId) {
             remove(ref(db, 'users/' + userId + '/' + itemKey))
                 .then(function () {
-                    // Remove the item from the UI
-                    listItem.remove();
+                    console.log("Removed item successfully")
                 })
                 .catch(function (error) {
                     console.error("Error removing item: ", error);
