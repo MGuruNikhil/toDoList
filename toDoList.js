@@ -8,7 +8,7 @@ var toDoListRef;
 setPersistence(auth, browserLocalPersistence)
     .then(() => {
         onAuthStateChanged(auth, (user) => {
-            if (user) {
+            if (user && user.emailVerified) {
                 userId = user.uid;
                 toDoListRef = ref(db, "users/" + userId);
                 // Render the existing list of the user

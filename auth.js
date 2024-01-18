@@ -5,12 +5,13 @@ import {
     signInWithEmailAndPassword,
     GoogleAuthProvider,
     signInWithPopup,
-    onAuthStateChanged
+    onAuthStateChanged,
+    sendEmailVerification
 } from "https://www.gstatic.com/firebasejs/10.3.1/firebase-auth.js";
 var userId = null;
 const auth = getAuth(app);
 onAuthStateChanged(auth, (user) => {
-    if (user) {
+    if (user && user.emailVerified) {
         window.location.href = "toDoList.html";
     }
     else {
@@ -29,11 +30,13 @@ function createUser() {
     const password = pWord.value;
     createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-            // Signed in 
-            const user = userCredential.user;
-            userId = user.uid;
-            console.log(user);
-            window.location.href = `toDoList.html`;
+            alert("User Created successfully");
+            sendEmailVerification(auth.currentUser)
+                .then(() => {
+                    alert("Email verification link sent, verify your email before logging in");
+                    mail.value="";
+                    pWord.value="";
+            });
         })
         .catch((error) => {
             const errorCode = error.code;
@@ -52,11 +55,13 @@ function userLogin() {
     const password = pWord.value;
     signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-            // Signed in 
             const user = userCredential.user;
-            userId = user.uid;
-            console.log(user);
-            window.location.href = `toDoList.html`;
+            if(user.emailVerified) {
+                window.location.href = `toDoList.html`;
+            }
+            else {
+                alert("Please complete email verification, verification link already sent to ", user.email);
+            }
         })
         .catch((error) => {
             const errorCode = error.code;
