@@ -20,7 +20,7 @@ onAuthStateChanged(auth, (user) => {
     }
 });
 const provider = new GoogleAuthProvider(app);
-auth.languageCode = 'it';
+auth.languageCode = 'en';
 const signUp = document.querySelector('#signup');
 signUp.addEventListener('click', createUser);
 var display = document.getElementById('result');
