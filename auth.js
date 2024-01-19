@@ -6,7 +6,8 @@ import {
     GoogleAuthProvider,
     signInWithPopup,
     onAuthStateChanged,
-    sendEmailVerification
+    sendEmailVerification,
+    sendPasswordResetEmail
 } from "https://www.gstatic.com/firebasejs/10.3.1/firebase-auth.js";
 var userId = null;
 const auth = getAuth(app);
@@ -99,3 +100,17 @@ function handelGoogle() {
             display.innerHTML = "Something went wrong";
         });
 }
+
+const forgotPassword = document.getElementById("forgotPassword");
+forgotPassword.addEventListener('click',()=>{
+    const email = prompt("Enter your registred email id");
+    sendPasswordResetEmail(auth, email)
+    .then(() => {
+        alert("Password reset mail is sent");
+    })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    console.log(errorMessage);
+  });
+});
