@@ -35,6 +35,18 @@ logOut.addEventListener('click', () => {
     });
 });
 
+function escapeHtml(text) {
+    var map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    };
+
+    return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+}
+
 function renderToDoItem(item, itemKey) {
     const parentList = document.getElementById('parentList');
     const newListItem = document.createElement('li');
@@ -51,18 +63,6 @@ function renderToDoItem(item, itemKey) {
     `;
     newListItem.setAttribute('data-key', itemKey);
     parentList.appendChild(newListItem);
-}
-
-function escapeHtml(text) {
-    var map = {
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#039;'
-    };
-
-    return text.replace(/[&<>"']/g, function(m) { return map[m]; });
 }
 
 let cbtn = document.getElementById('add_btn');
