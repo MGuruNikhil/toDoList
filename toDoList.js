@@ -35,32 +35,20 @@ logOut.addEventListener('click', () => {
     });
 });
 
-function escapeHtml(text) {
-    var map = {
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#039;'
-    };
-
-    return text.replace(/[&<>"']/g, function(m) { return map[m]; });
-}
-
 function renderToDoItem(item, itemKey) {
     const parentList = document.getElementById('parentList');
     const newListItem = document.createElement('li');
     newListItem.classList.add("list-group-item");
     newListItem.classList.add("d-flex");
     newListItem.innerHTML = `
-        <h3 class="flex-grow-1" data-key=${itemKey}>${escapeHtml(item.text)}</h3>
-        <button class="btn btn-warning mx-3 edit-btn" style="color: white;" data-key=${itemKey}>
-            <i class="bi bi-pen edit-btn" data-key=${itemKey}></i>
-        </button>
-        <button class="btn btn-danger delete-btn" data-key=${itemKey}>
-            <i class="bi bi-trash delete-btn" data-key=${itemKey}></i>
-        </button>
-    `;
+                <h3 class="flex-grow-1" data-key=${itemKey}>${item.text}</h3>
+                <button class="btn btn-warning mx-3 edit-btn" style="color: white;" data-key=${itemKey}>
+                    <i class="bi bi-pen edit-btn" data-key=${itemKey}></i>
+                </button>
+                <button class="btn btn-danger delete-btn" data-key=${itemKey}>
+                    <i class="bi bi-trash delete-btn" data-key=${itemKey}></i>
+                </button>
+            `;
     newListItem.setAttribute('data-key', itemKey);
     parentList.appendChild(newListItem);
 }
@@ -97,7 +85,8 @@ document.getElementById('parentList').addEventListener('click', function (e) {
     const parentList = document.getElementById('parentList');
     const itemKey = e.target.getAttribute('data-key');
     if (e.target.classList.contains('edit-btn')) {
-        const newText = prompt("Enter new text");
+        const defaultText = e.target.previousElementSibling.textContent;
+        const newText = prompt("Enter new text", defaultText);
         if (newText !== null) {
             const updatedText = newText.trim();
             if (updatedText !== "") {

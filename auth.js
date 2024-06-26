@@ -103,7 +103,8 @@ function handelGoogle() {
 
 const forgotPassword = document.getElementById("forgotPassword");
 forgotPassword.addEventListener('click',()=>{
-    const email = prompt("Enter your registred email id");
+    const defaultText = document.getElementById('email').value;
+    const email = prompt("Enter your registred email id", defaultText);
     sendPasswordResetEmail(auth, email)
     .then(() => {
         alert("Password reset mail is sent");
